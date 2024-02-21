@@ -1,7 +1,7 @@
-export default function HistoryButton({number, value, onClickMoveTo}) {
+export default function HistoryButton({key, value, onClick}) {
   return (
-    <li key={number}>
-      <button onClick={onClickMoveTo}>
+    <li key={key}>
+      <button onClick={onClick}>
         {value}
       </button>
     </li>
