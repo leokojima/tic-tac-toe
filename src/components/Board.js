@@ -1,12 +1,15 @@
 
 import Square from './Square';
 
-export default function Board({xIsNext, squares, onPlay}) {
+export default function Board({currentMove, squares, onPlay}) {
+  const xIsNext = currentMove % 2 === 0;
   const winner = calculateWinner(squares);
 
   let status;
   if(winner) {
     status = 'Winner: ' + winner;
+  } else if(currentMove == squares.length) {
+    status = 'DRAW!';
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
