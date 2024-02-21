@@ -1,3 +1,4 @@
+import './App.css';
 import { useState } from 'react';
 import Board from './components/Board';
 import HistoryButton from './components/HistoryButton';
