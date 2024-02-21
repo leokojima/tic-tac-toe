@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Board from './components/Board';
+import HistoryButton from './components/HistoryButton';
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -21,13 +22,7 @@ export default function Game() {
     const moveNumber = move > 0 ? 'move #' + move : 'game start';
     const description = move === currentMove ? 'You are @ ' + moveNumber : 'Go to ' + moveNumber;
 
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>
-          {description}
-        </button>
-      </li>
-    );
+    return <HistoryButton number={move} value={description} onClickMoveTo={() => jumpTo(move)} />
   });
 
   return (
