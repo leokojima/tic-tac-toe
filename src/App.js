@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Board from './components/Board';
 import HistoryButton from './components/HistoryButton';
 
-export default function Game() {
+export default function App() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentSquares = history[currentMove];
