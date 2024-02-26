@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Board from "./Board";
 import GameOver from "./GameOver";
 import GameState from "./GameState";
+import HistoryButton from "./HistoryButton";
 import Reset from "./Reset";
 import Sounds from "../sounds";
 
@@ -51,7 +52,9 @@ function checkWinner(tiles, setStrikeClass, setGameState) {
 }
 
 function TicTacToe() {
-  const [tiles, setTiles] = useState(Array(9).fill(null));
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const [tiles, setTiles] = useState(history[currentMove]);
   const [playerTurn, setPlayerTurn] = useState(PLAYER_X);
   const [strikeClass, setStrikeClass] = useState(null);
   const [gameState, setGameState] = useState(GameState.inProgress);
@@ -66,8 +69,12 @@ function TicTacToe() {
     }
 
     const newTiles = [...tiles];
+    const nextHistory = [...history.slice(0, currentMove + 1), newTiles];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
     newTiles[index] = playerTurn;
     setTiles(newTiles);
+
     if (playerTurn === PLAYER_X) {
       xClickSound.play();
       setPlayerTurn(PLAYER_O);
@@ -78,7 +85,9 @@ function TicTacToe() {
   };
 
   const handleReset = () => {
-    setTiles(Array(9).fill(null));
+    setHistory([Array(9).fill(null)]);
+    setCurrentMove(0);
+    setTiles(history[currentMove]);
     setPlayerTurn(PLAYER_X);
     setStrikeClass(null);
     setGameState(GameState.inProgress);
@@ -104,6 +113,28 @@ function TicTacToe() {
     }
   }, [gameState]);
 
+  function jumpTo(move) {
+    setCurrentMove(move);
+    setTiles(history[move]);
+    setPlayerTurn(move % 2 === 0 ? PLAYER_X : PLAYER_O);
+    setStrikeClass(null);
+    setGameState(GameState.inProgress)
+  }
+
+  const moves = history.map((tiles, move) => {
+    const moveNumber = move > 0 ? "move #" + move : "game start";
+    const description =
+      move === currentMove ? "You are @ " + moveNumber : "Go to " + moveNumber;
+
+    return (
+      <HistoryButton
+        key={move}
+        value={description}
+        onClick={() => jumpTo(move)}
+      />
+    );
+  });
+
   return (
     <>
       <div>
@@ -114,6 +145,9 @@ function TicTacToe() {
           playerTurn={playerTurn}
           strikeClass={strikeClass}
         />
+        <div className="game-history">
+          <ol>{moves}</ol>
+        </div>
         <GameOver gameState={gameState} />
         <Reset gameState={gameState} onReset={handleReset} />
       </div>
