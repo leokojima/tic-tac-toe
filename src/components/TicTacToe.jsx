@@ -8,6 +8,7 @@ import Sounds from "../sounds";
 
 const PLAYER_X = "X";
 const PLAYER_O = "O";
+const INITIAL_MOVE = 0;
 
 const resetSound = new Audio(Sounds["reset"]);
 const xClickSound = new Audio(Sounds["x-click"]);
@@ -53,8 +54,8 @@ function checkWinner(tiles, setStrikeClass, setGameState) {
 
 function TicTacToe() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const [currentMove, setCurrentMove] = useState(0);
-  const [tiles, setTiles] = useState(history[currentMove]);
+  const [currentMove, setCurrentMove] = useState(INITIAL_MOVE);
+  const [tiles, setTiles] = useState(history[INITIAL_MOVE]);
   const [playerTurn, setPlayerTurn] = useState(PLAYER_X);
   const [strikeClass, setStrikeClass] = useState(null);
   const [gameState, setGameState] = useState(GameState.inProgress);
@@ -86,8 +87,8 @@ function TicTacToe() {
 
   const handleReset = () => {
     setHistory([Array(9).fill(null)]);
-    setCurrentMove(0);
-    setTiles(history[currentMove]);
+    setCurrentMove(INITIAL_MOVE);
+    setTiles(history[INITIAL_MOVE]);
     setPlayerTurn(PLAYER_X);
     setStrikeClass(null);
     setGameState(GameState.inProgress);
@@ -139,17 +140,21 @@ function TicTacToe() {
     <>
       <div>
         <h1>Tic Tac Toe</h1>
-        <Board
-          tiles={tiles}
-          onTileClick={handleTileClick}
-          playerTurn={playerTurn}
-          strikeClass={strikeClass}
-        />
-        <div className="game-history">
-          <ol>{moves}</ol>
-        </div>
-        <GameOver gameState={gameState} />
-        <Reset gameState={gameState} onReset={handleReset} />
+          <div className="flex-row">
+            <Board
+              tiles={tiles}
+              onTileClick={handleTileClick}
+              playerTurn={playerTurn}
+              strikeClass={strikeClass}
+            />
+            <div className="game-history">
+              <ol>{moves}</ol>
+            </div>
+          </div>
+          <div className="flex-row">
+            <GameOver gameState={gameState} />
+            <Reset gameState={gameState} onReset={handleReset} />
+          </div>
       </div>
     </>
   );

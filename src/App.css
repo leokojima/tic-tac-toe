@@ -105,16 +105,25 @@ h1 {
   border: #5468ff 2vh;
   border-style: dotted;
   padding: 3vh;
-  margin-top: 5vh;
   font-size: 1em;
   text-align: center;
+  margin: 5vh 14% 0 0;
+  width: fit-content;
 }
 
 .reset-button {
   background-color: #0074a6;
   color: white;
   padding: 3vh;
-  margin-top: 5vh;
   font-size: 1em;
   text-align: center;
+  margin: 5vh 0 0 20%;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 5vh;
 }
